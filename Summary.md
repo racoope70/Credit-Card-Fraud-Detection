@@ -125,10 +125,3 @@ The table below summarizes the metrics at each iteration:
 
 ---
 
-### Key Improvements in This Version:
-1. Added deeper interpretations of metrics, particularly the confusion matrix.
-2. Included actionable recommendations in "Future Directions."
-3. Enhanced the clarity of the "Evaluation" section with a comparative summary table.
-4. Provided specific references for external resources to improve credibility.
-
-This updated Markdown should provide readers with a more insightful and actionable summary of your project. Let me know if further refinements are needed!
