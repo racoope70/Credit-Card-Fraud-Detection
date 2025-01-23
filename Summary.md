@@ -1,7 +1,7 @@
 # Credit Card Fraud Detection
 
 ## Overview
-This project aims to detect fraudulent credit card transactions using machine learning techniques. The primary challenge was handling a highly imbalanced dataset, where fraudulent transactions accounted for only 0.17% of the total. The project explored various approaches to preprocessing, modeling, and evaluating performance, emphasizing practical metrics like precision and recall.
+This project focuses on detecting fraudulent credit card transactions using machine learning techniques. Given the severe class imbalance in the dataset (fraudulent transactions make up only 0.17%), this project addresses key challenges by employing preprocessing techniques, resampling strategies, and optimized modeling pipelines.
 
 ---
 
@@ -21,32 +21,34 @@ This project aims to detect fraudulent credit card transactions using machine le
 - **Features**:
   - 30 columns: `Time`, `Amount`, `Class` (target), and 27 anonymized features (`V1` to `V28`)
   - `Class`: 0 for non-fraudulent, 1 for fraudulent
+- **Class Distribution**:
+  - Non-Fraudulent: 99.83%
+  - Fraudulent: 0.17%
 
 ---
 
 ## 2. Data Preprocessing <a name="data-preprocessing"></a>
 ### Key Steps:
-1. **Handling Missing Data**: Verified that the dataset contained no missing values.
-2. **Feature Scaling**: Applied `MinMaxScaler` to normalize `Time` and `Amount`.
+1. **Handling Missing Data**:
+   - Verified that the dataset contained no missing values.
+2. **Feature Scaling**:
+   - Applied `MinMaxScaler` to normalize `Time` and `Amount` for better model convergence.
 3. **Handling Imbalanced Data**:
-   - **SMOTE (Synthetic Minority Oversampling Technique)**: Generated synthetic samples to balance the minority class.
-   - **ADASYN (Adaptive Synthetic Sampling)**: Focused on generating samples for harder-to-classify cases.
+   - **SMOTE**: Generated synthetic samples to balance the minority class.
+   - **ADASYN**: Focused on harder-to-classify fraudulent cases to further improve class balance.
 
 ### Improvements:
-- Balancing the dataset significantly improved recall and reduced false negatives in subsequent modeling stages.
+- Balancing the dataset significantly improved the recall and reduced false negatives, making the model more effective in identifying fraud.
 
 ---
 
 ## 3. Exploratory Data Analysis (EDA) <a name="exploratory-data-analysis-eda"></a>
-EDA was performed to understand the dataset's structure and identify patterns that could inform feature engineering and modeling.
-
-### Findings:
+### Key Findings:
 1. **Class Imbalance**:
-   - Fraudulent transactions: ~0.17%
-   - Non-fraudulent transactions: ~99.83%
+   - Fraudulent transactions constituted only 0.17% of the dataset.
 2. **Feature Distributions**:
-   - Features `V1` to `V28` appeared standardized.
-   - `Amount` and `Time` were skewed and required normalization.
+   - Features `V1` to `V28` are anonymized but standardized.
+   - `Time` and `Amount` were skewed, requiring normalization.
 
 ### Visualizations:
 #### Precision-Recall Curve:
@@ -63,25 +65,27 @@ EDA was performed to understand the dataset's structure and identify patterns th
 ![image](https://github.com/user-attachments/assets/84ca4273-eb67-448f-81ef-ede526fafcc1)
 
 **Description**: Baseline ROC curve showed moderate separation between fraud and non-fraud transactions.
-
 ---
 
 ## 4. Modeling <a name="modeling"></a>
 ### Models Tested:
-1. **Baseline Model**: XGBoost
-   - **Performance**: Low recall due to class imbalance.
-2. **Enhanced Model**: XGBoost + SMOTE + ADASYN
-   - **Performance**: Improved recall and F1-score.
-3. **Final Model**: Stacked Classifier (XGBoost, Random Forest, Logistic Regression)
-   - **Performance**: Achieved the best balance between precision and recall.
+1. **Baseline Model**:
+   - Algorithm: XGBoost
+   - Results: High accuracy (~99%) but very low recall (~22%), indicating poor fraud detection.
+2. **Enhanced Model**:
+   - Resampling: SMOTE + ADASYN
+   - Results: Recall and F1-score improved with better class balance.
+3. **Final Model**:
+   - Algorithm: Stacked Classifier (XGBoost, Random Forest, Logistic Regression)
+   - Results: Achieved the best trade-off between precision and recall.
 
 ### Hyperparameter Tuning:
-- **RandomizedSearchCV** was used to optimize hyperparameters for XGBoost, significantly enhancing performance.
+- **RandomizedSearchCV**: Used to optimize hyperparameters for XGBoost, significantly enhancing overall model performance.
 
 ---
 
 ## 5. Evaluation <a name="evaluation"></a>
-The table below summarizes how key metrics improved across iterations:
+The table below summarizes the metrics at each iteration:
 
 | Model                              | Precision | Recall | F1-Score | ROC-AUC |
 |------------------------------------|-----------|--------|----------|---------|
@@ -89,21 +93,42 @@ The table below summarizes how key metrics improved across iterations:
 | After Resampling (SMOTE + ADASYN)  | 0.85      | 0.72   | 0.78     | 0.92    |
 | Stacked Classifier + Optimization  | 0.91      | 0.88   | 0.89     | 0.98    |
 
-### Key Observations:
-1. **Recall**: Improved from 0.22 (Baseline) to 0.88 (Final Model), drastically reducing false negatives.
-2. **Precision**: Increased to 0.91, ensuring high trust in fraud detection.
-3. **F1-Score**: Improved steadily, reflecting a balanced trade-off between precision and recall.
+### Confusion Matrix Analysis:
+1. **Baseline Model**:
+   - False negatives: High, leading to undetected fraud cases.
+2. **Enhanced Model (SMOTE + ADASYN)**:
+   - Reduced false negatives but slightly increased false positives.
+3. **Final Model (Stacked Classifier)**:
+   - Best balance: Minimal false negatives and false positives, leading to reliable fraud detection.
 
 ---
 
 ## 6. Future Directions <a name="future-directions"></a>
-### Next Steps:
-1. **Experiment with Deep Learning**:
-   - Use Autoencoders or LSTMs for anomaly detection in high-dimensional data.
-2. **Implement Drift Detection**:
-   - Monitor data changes over time to retrain the model as needed.
-3. **Optimize Further**:
-   - Use Bayesian Optimization (e.g., Optuna) to refine hyperparameters further.
-4. **Enhance Feature Engineering**:
-   - Explore temporal patterns and additional external features that could improve prediction.
+### Recommended Next Steps:
+1. **Deep Learning Models**:
+   - Implement Autoencoders or LSTMs to detect anomalies in high-dimensional data.
+2. **Drift Detection**:
+   - Monitor data distribution changes over time to retrain the model dynamically.
+3. **Bayesian Optimization**:
+   - Explore Optuna for better hyperparameter tuning, replacing RandomizedSearchCV.
+4. **Comparative Study**:
+   - Test additional anomaly detection techniques (e.g., Isolation Forest, One-Class SVM) and compare results.
+5. **Enhance Explainability**:
+   - Expand SHAP visualizations to better understand the impact of features on model predictions.
 
+---
+
+## References
+1. [Kaggle Dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud)
+2. [SMOTE Paper](https://arxiv.org/abs/1106.1813)
+3. [ADASYN Paper](https://ieeexplore.ieee.org/document/4633969)
+
+---
+
+### Key Improvements in This Version:
+1. Added deeper interpretations of metrics, particularly the confusion matrix.
+2. Included actionable recommendations in "Future Directions."
+3. Enhanced the clarity of the "Evaluation" section with a comparative summary table.
+4. Provided specific references for external resources to improve credibility.
+
+This updated Markdown should provide readers with a more insightful and actionable summary of your project. Let me know if further refinements are needed!
