@@ -25,17 +25,25 @@ This project focuses on detecting fraudulent credit card transactions using mach
   - Non-Fraudulent: 99.83%
   - Fraudulent: 0.17%
 
+![Class Distribution](file-FtJNrZdQfTVqXH5cQp8tqb)
+
 ---
 
 ## 2. Data Preprocessing <a name="data-preprocessing"></a>
+
 ### Key Steps:
 1. **Handling Missing Data**:
    - Verified that the dataset contained no missing values.
 2. **Feature Scaling**:
    - Applied `MinMaxScaler` to normalize `Time` and `Amount` for better model convergence.
 3. **Handling Imbalanced Data**:
-   - **SMOTE**: Generated synthetic samples to balance the minority class.
-   - **ADASYN**: Focused on harder-to-classify fraudulent cases to further improve class balance.
+
+#### Why SMOTE?
+The dataset is heavily imbalanced, as illustrated in the class distribution plot above. Without addressing this imbalance, machine learning models tend to be biased towards the majority class (non-fraudulent transactions), resulting in high accuracy but poor recall for the minority class.
+
+**SMOTE (Synthetic Minority Oversampling Technique)** generates synthetic samples for the minority class by interpolating between existing samples, effectively balancing the dataset. This improves the model's ability to detect fraudulent transactions, reducing false negatives.
+
+- **ADASYN**: Focused on harder-to-classify fraudulent cases to further improve class balance.
 
 ### Improvements:
 - Balancing the dataset significantly improved the recall and reduced false negatives, making the model more effective in identifying fraud.
@@ -52,22 +60,24 @@ This project focuses on detecting fraudulent credit card transactions using mach
 
 ### Visualizations:
 #### Precision-Recall Curve:
-![image](https://github.com/user-attachments/assets/8e9c4bc6-7966-4f2f-b7e7-7d7c15f28f2d)
+![Precision-Recall Curve](https://github.com/user-attachments/assets/8e9c4bc6-7966-4f2f-b7e7-7d7c15f28f2d)
 
 **Description**: Highlighted the model's struggle with classifying fraud due to the imbalanced dataset.
 
 #### Confusion Matrix:
-![image](https://github.com/user-attachments/assets/90806960-734f-4700-9e98-aab45c591ad1)
+![Confusion Matrix](https://github.com/user-attachments/assets/90806960-734f-4700-9e98-aab45c591ad1)
 
 **Description**: Demonstrated a high number of false negatives for fraudulent transactions.
 
 #### ROC Curve:
-![image](https://github.com/user-attachments/assets/84ca4273-eb67-448f-81ef-ede526fafcc1)
+![ROC Curve](https://github.com/user-attachments/assets/84ca4273-eb67-448f-81ef-ede526fafcc1)
 
 **Description**: Baseline ROC curve showed moderate separation between fraud and non-fraud transactions.
+
 ---
 
 ## 4. Modeling <a name="modeling"></a>
+
 ### Models Tested:
 1. **Baseline Model**:
    - Algorithm: XGBoost
@@ -85,6 +95,7 @@ This project focuses on detecting fraudulent credit card transactions using mach
 ---
 
 ## 5. Evaluation <a name="evaluation"></a>
+
 The table below summarizes the metrics at each iteration:
 
 | Model                              | Precision | Recall | F1-Score | ROC-AUC |
@@ -104,6 +115,7 @@ The table below summarizes the metrics at each iteration:
 ---
 
 ## 6. Future Directions <a name="future-directions"></a>
+
 ### Recommended Next Steps:
 1. **Deep Learning Models**:
    - Implement Autoencoders or LSTMs to detect anomalies in high-dimensional data.
@@ -122,6 +134,3 @@ The table below summarizes the metrics at each iteration:
 1. [Kaggle Dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 2. [SMOTE Paper](https://arxiv.org/abs/1106.1813)
 3. [ADASYN Paper](https://ieeexplore.ieee.org/document/4633969)
-
----
-
