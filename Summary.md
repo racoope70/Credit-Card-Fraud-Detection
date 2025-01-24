@@ -25,7 +25,8 @@ This project focuses on detecting fraudulent credit card transactions using mach
   - Non-Fraudulent: 99.83%
   - Fraudulent: 0.17%
 
-![Class Distribution](file-FtJNrZdQfTVqXH5cQp8tqb)
+![Class Distribution](![image](https://github.com/user-attachments/assets/787d9e05-0983-4d8a-965a-493f4d9e8445)
+
 
 ---
 
